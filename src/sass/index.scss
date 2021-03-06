@@ -1,0 +1,14 @@
+// UTILS
+@import 'helpers/variables';
+@import 'helpers/mixin';
+@import 'helpers/placeholder';
+
+//BASE STYLES
+@import 'base/reset';
+@import 'base/fonts';
+@import 'base/base';
+
+//COMPONENTS
+@import 'components/header';
+@import 'components/section';
+@import 'components/footer';

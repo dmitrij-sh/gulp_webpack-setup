@@ -1,0 +1,108 @@
+//PX TO REM
+@mixin font-size($size, $base: 16) {
+  font-size: ($size / $base) * 1rem;
+  @content;
+}
+
+//FOR RETINA DISPLAY
+@mixin retina-image($image, $resolution) {
+  @media (min-resolution: $resolution + dpi) {
+    background-image: url($image);
+    @content;
+  }
+}
+
+//FONT-FACE RULE
+@mixin font-face($name, $path) {
+  @font-face {
+    font-family: '#{$name}';
+    src: local(''), url('#{$path}.woff2') format('woff2'),
+    url('#{$path}.woff') format('woff');
+  }
+}
+
+//CREATE A TRIANGLE
+@mixin arrow($dir: false, $size: 5px, $color: #555) {
+  width: 0;
+  height: 0;
+  @if ($dir == left) {
+    border-top: $size solid transparent;
+    border-bottom: $size solid transparent;
+    border-right: $size solid $color;
+  } @else if ($dir == right) {
+    border-top: $size solid transparent;
+    border-bottom: $size solid transparent;
+    border-left: $size solid $color;
+  } @else if ($dir == down) {
+    border-left: $size solid transparent;
+    border-right: $size solid transparent;
+    border-top: $size solid $color;
+  } @else {
+    border-left: $size solid transparent;
+    border-right: $size solid transparent;
+    border-bottom: $size solid $color;
+  }
+}
+
+@mixin bg-image($size: cover, $repeat: no-repeat, $position: 50%) {
+  background-size: $size;
+  background-repeat: $repeat;
+  background-position: $position;
+  @content;
+}
+
+@mixin pseudo($width, $height, $content: '') {
+  content: $content;
+  width: $width;
+  height: $height;
+  @content;
+}
+
+@mixin flex($type: 'all') {
+  display: flex;
+  @if ($type == 'all') {
+    justify-content: center;
+    align-items: center;
+  } @else if ($type == 'hor') {
+    justify-content: center;
+  } @else if ($type == 'ver') {
+    align-items: center;
+  } @else if ($type == 'line') {
+    justify-content: space-between;
+  }
+  @content;
+}
+
+//RESPONSIVE FONT AUTO ZOOM
+@mixin font-adaptive($maxSize, $minSize) {
+  $maxWidth: 1280;
+  $deltaSize: $maxSize - $minSize;
+  $indexSize: $deltaSize + $deltaSize * 0.7;
+
+  @media (max-width: 767px) {
+    font-size: calc(
+      #{$minSize + px} + #{$indexSize} * ((100vw - 320px) / #{$maxWidth})
+    );
+  }
+
+  @media (min-width: 768px) {
+    font-size: calc(#{$minSize + px} + #{$deltaSize} * (100vw / #{$maxWidth}));
+  }
+}
+
+//MEDIA QUERIES
+@mixin media($point) {
+  @if ($point == md) {
+    @media screen and (min-width: 768px) {
+      @content;
+    }
+  } @else if ($point == lg) {
+    @media screen and (max-width: 960px) {
+      @content;
+    }
+  } @else if ($point == xl) {
+    @media screen and (max-width: 1200px) {
+      @content;
+    }
+  }
+}
